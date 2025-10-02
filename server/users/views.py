@@ -4,7 +4,10 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
 from rest_framework import status
+import logging
 import os
+
+logger = logging.getLogger(__name__)
 
 class PlaylistViewSet(viewsets.ModelViewSet):
     queryset = Playlist.objects.all()
@@ -18,6 +21,13 @@ class PlaylistViewSet(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
+    def list(self, request, *args, **kwargs):
+        playlists = self.get_queryset().filter(private=False)
+        serializer = PlaylistsSerializer(playlists, many=True)
+        return Response({
+            "playlists": serializer.data
+        }, status=status.HTTP_200_OK)
+    
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -37,6 +47,16 @@ class PlaylistViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         playlist = self.get_object()
         name = playlist.name
+        
+        image_field = getattr(song, 'image', None)
+        if image_field and hasattr(image_field, 'path'):
+            image_path = image_field.path
+            if os.path.isfile(image_path):
+                try:
+                    os.remove(image_path)
+                except Exception as e:
+                    logging.error(f"{e}")
+                    
         playlist.delete()
         return Response({
             "message": f"Playlist '{name}' has been deleted."
@@ -44,17 +64,9 @@ class PlaylistViewSet(viewsets.ModelViewSet):
         
     def update(self, request, *args, **kwargs):
         playlist = self.get_object()
-        serializer = self.get_serializer(playlist, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({
-            "message": "Playlist has been updated",
-            "playlist": PlaylistsSerializer(playlist).data
-        }, status=status.HTTP_200_OK)
         
-    def partial_update(self, request, *args, **kwargs):
-        playlist = self.get_object()
-        
+        previous_image_path = playlist.image.path if playlist.image else None
+       
         if not request.user == playlist.author:
             return Response({
             "message": "Access Denied"
@@ -63,6 +75,44 @@ class PlaylistViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(playlist, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        
+        new_image_path = playlist.image.path if playlist.image else None
+        
+        if previous_image_path and previous_image_path != new_image_path:
+            if os.path.isfile(previous_image_path):
+                try:
+                    os.remove(previous_image_path)
+                except Exception as e:
+                    logging.error(f"{e}")
+                    
+        return Response({
+            "message": "Playlist has been updated",
+            "playlist": PlaylistsSerializer(playlist).data
+        }, status=status.HTTP_200_OK)
+        
+    def partial_update(self, request, *args, **kwargs):
+        playlist = self.get_object()
+        
+        previous_image_path = playlist.image.path if playlist.image else None
+       
+        if not request.user == playlist.author:
+            return Response({
+            "message": "Access Denied"
+        }, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = self.get_serializer(playlist, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        
+        new_image_path = playlist.image.path if playlist.image else None
+        
+        if previous_image_path and previous_image_path != new_image_path:
+            if os.path.isfile(previous_image_path):
+                try:
+                    os.remove(previous_image_path)
+                except Exception as e:
+                    logging.error(f"{e}")
+                    
         return Response({
             "message": "Playlist has been updated",
             "playlist": PlaylistsSerializer(playlist).data
@@ -115,7 +165,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 try:
                     os.remove(image_path)
                 except Exception as e:
-                    print(f"{e}")
+                    logging.error(f"{e}")
         
         user.delete()
         return Response({
@@ -173,7 +223,7 @@ class SongViewSet(viewsets.ModelViewSet):
                 try:
                     os.remove(image_path)
                 except Exception as e:
-                    print(f"{e}")
+                    logging.error(f"{e}")
                     
         song_field = getattr(song, 'song', None)
         if song_field and hasattr(song_field, 'path'):
@@ -182,7 +232,7 @@ class SongViewSet(viewsets.ModelViewSet):
                 try:
                     os.remove(song_path)
                 except Exception as e:
-                    print(f"{e}")  
+                    logging.error(f"{e}")
         
         song.delete()
         return Response({
@@ -205,7 +255,7 @@ class SongViewSet(viewsets.ModelViewSet):
                 try:
                     os.remove(previous_image_path)
                 except Exception as e:
-                    print(f"{e}")
+                    logging.error(f"{e}")
                     
         return Response({
             "message": "Song has been updated",
@@ -226,7 +276,7 @@ class SongViewSet(viewsets.ModelViewSet):
                 try:
                     os.remove(previous_image_path)
                 except Exception as e:
-                    print(f"{e}")
+                    logging.error(f"{e}")
                     
         return Response({
             "message": "Song has been updated",

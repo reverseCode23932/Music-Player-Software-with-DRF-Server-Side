@@ -15,7 +15,7 @@ class UsersSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ["id","username", "email", "image", "joined_at", "is_banned"]
+        fields = ["id","username", "email", "image", "joined_at", "is_banned", "playlists"]
     
 class SongsSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
