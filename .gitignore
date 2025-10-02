@@ -1,1 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.manifest
+*.spec
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+*.log
+
+# VS Code
+.vscode/
+
+# Environment
 .env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Migrations
+*/migrations/__pycache__/
+*/migrations/*.pyc
+
+# Test
+htmlcov/
+.coverage
+.tox/
+.nox/
+.cache/
+.pytest_cache/
