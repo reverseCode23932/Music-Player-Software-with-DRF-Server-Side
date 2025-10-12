@@ -197,7 +197,7 @@ class SongViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data, files=request.FILES)
         serializer.is_valid(raise_exception=True)
         song = serializer.save(author=self.request.user)
         return Response({

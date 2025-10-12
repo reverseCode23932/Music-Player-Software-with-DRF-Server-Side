@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from mutagen._file import File as AudioCheck
 
-DEFAULT_IMAGE = "images/default_profile.jpg"
+DEFAULT_IMAGE = "default/default_profile.jpg"
 
 def get_image_url(instance, filename):
     return f"users_profile_pictures/{instance.username}/{filename}"
@@ -29,7 +29,7 @@ class Playlist(models.Model):
     height = models.IntegerField(default=50, editable=False)
     width = models.IntegerField(default=50, editable=False)
     image = models.ImageField('Song Image', upload_to=get_song_image_url, default=DEFAULT_IMAGE, null=False, height_field='height', width_field='width')
-    private = models.BooleanField('Privacy', default=True)
+    private = models.BooleanField('Private', default=True)
     created_at = models.DateTimeField("Date Created", auto_now_add=True)
 
     def __str__(self) -> str:
