@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from mutagen._file import File as AudioCheck
 
-DEFAULT_IMAGE = "default/default_profile.jpg"
+DEFAULT_IMAGE = "images/default_profile.jpg"
 
 def get_image_url(instance, filename):
     return f"users_profile_pictures/{instance.username}/{filename}"
