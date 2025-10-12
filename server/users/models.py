@@ -30,6 +30,7 @@ class Playlist(models.Model):
     width = models.IntegerField(default=50, editable=False)
     image = models.ImageField('Song Image', upload_to=get_song_image_url, default=DEFAULT_IMAGE, null=False, height_field='height', width_field='width')
     private = models.BooleanField('Privacy', default=True)
+    created_at = models.DateTimeField("Date Created", auto_now_add=True)
 
     def __str__(self) -> str:
         return f"{self.title} | Playlist"
