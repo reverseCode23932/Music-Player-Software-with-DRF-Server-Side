@@ -29,7 +29,7 @@ class PlaylistViewSet(viewsets.ModelViewSet):
         }, status=status.HTTP_200_OK)
     
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data, files=request.FILES)
         serializer.is_valid(raise_exception=True)
         playlist = serializer.save(owner=self.request.user)
         return Response({

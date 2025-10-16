@@ -15,7 +15,7 @@ def get_song_url(instance, filename):
     return f"users_songs/{instance.author.username}/{filename}"
 
 def validate_audio_file(value):
-    try:
+    try:                        
         audio = AudioCheck(value)
         if audio is None:
             raise ValidationError("Unsupported or invalid audio file.")
