@@ -13,13 +13,7 @@ class PlaylistViewSet(viewsets.ModelViewSet):
     queryset = Playlist.objects.all()
     serializer_class = PlaylistsSerializer
     lookup_field = "name"
-    
-    def get_permissions(self):
-        if self.action in ["list", "retrieve"]:
-            permission_classes = [AllowAny]
-        else:
-            permission_classes = [IsAuthenticated]
-        return [permission() for permission in permission_classes]
+    permission_classes = [IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
         playlists = self.get_queryset().filter(private=False)
