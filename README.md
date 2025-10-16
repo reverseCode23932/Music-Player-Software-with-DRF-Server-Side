@@ -1,6 +1,5 @@
 # Music-Player-Software-with-DRF-Backend
 
-
 CLIENT NOT FINISHED
 
 # Music Player Software with DRF Server Side
@@ -28,7 +27,36 @@ git clone https://github.com/reverseCode23932/Music-Player-Software-with-DRF-Ser
 cd Music-Player-Software-with-DRF-Server-Side
 ```
 
-### 2. Create a Virtual Environment
+### 2. Install PostgreSQL
+
+1. Download PostgreSQL from the official website: [https://www.postgresql.org/download/](https://www.postgresql.org/download/)
+2. Run the installer and set a superuser password (usually `postgres`).
+3. Add PostgreSQL to your system PATH if not done automatically.
+4. Start the PostgreSQL service.
+
+### 3. Create Database and User for Django
+
+Log in to PostgreSQL:
+
+```bash
+psql -U postgres
+```
+
+Create a database and a user:
+
+```sql
+CREATE DATABASE music_player_db;
+CREATE USER django_user WITH PASSWORD 'strong_password';
+GRANT ALL PRIVILEGES ON DATABASE music_player_db TO django_user;
+```
+
+Exit `psql`:
+
+```sql
+\q
+```
+
+### 4. Create a Virtual Environment
 
 ```bash
 python -m venv venv
@@ -48,13 +76,13 @@ Activate the virtual environment:
 source venv/bin/activate
 ```
 
-### 3. Install Dependencies
+### 5. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Set Up Environment Variables
+### 6. Set Up Environment Variables
 
 Create a `.env` file in the project root and add the following:
 
@@ -62,25 +90,25 @@ Create a `.env` file in the project root and add the following:
 DEBUG=True
 SECRET_KEY=your_secret_key
 DB_NAME=music_player_db
-DB_USER=your_db_user
-DB_PASSWORD=your_db_password
+DB_USER=django_user
+DB_PASSWORD=strong_password
 DB_HOST=localhost
 DB_PORT=5432
 ```
 
-### 5. Apply Migrations
+### 7. Apply Migrations
 
 ```bash
 python manage.py migrate
 ```
 
-### 6. Create a Superuser (Optional)
+### 8. Create a Superuser (Optional)
 
 ```bash
 python manage.py createsuperuser
 ```
 
-### 7. Run the Development Server
+### 9. Run the Development Server
 
 ```bash
 python manage.py runserver
@@ -88,13 +116,34 @@ python manage.py runserver
 
 Access the API at `http://127.0.0.1:8000/`.
 
+## Security Considerations
+
+* Never hardcode credentials in your code. Use environment variables.
+* Use a dedicated PostgreSQL user with limited privileges for Django.
+* Keep the PostgreSQL server not publicly accessible; allow access only from your app server.
+* Rotate passwords regularly and use strong, unique passwords.
+* Consider using SSL for database connections in production.
+
 ## API Endpoints
 
 * **GET /api/songs/**: List all songs
 * **POST /api/songs/**: Upload a new song
-* **GET /api/songs/{id}/**: Retrieve a song
-* **PUT /api/songs/{id}/**: Update a song
-* **DELETE /api/songs/{id}/**: Delete a song
+* **GET /api/songs/{id}/**: Retrieve a song by ID
+* **PUT /api/songs/{id}/**: Update a song by ID
+* **PATCH /api/songs/{id}/**: Partial update of a song by ID
+* **DELETE /api/songs/{id}/**: Delete a song by ID
+* **GET /api/artists/**: List all artists
+* **POST /api/artists/**: Create a new artist
+* **GET /api/artists/{id}/**: Retrieve an artist by ID
+* **PUT /api/artists/{id}/**: Update an artist by ID
+* **PATCH /api/artists/{id}/**: Partial update of an artist by ID
+* **DELETE /api/artists/{id}/**: Delete an artist by ID
+* **GET /api/albums/**: List all albums
+* **POST /api/albums/**: Create a new album
+* **GET /api/albums/{id}/**: Retrieve an album by ID
+* **PUT /api/albums/{id}/**: Update an album by ID
+* **PATCH /api/albums/{id}/**: Partial update of an album by ID
+* **DELETE /api/albums/{id}/**: Delete an album by ID
 
 ## License
 
