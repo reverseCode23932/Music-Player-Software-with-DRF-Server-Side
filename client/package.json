@@ -1,0 +1,14 @@
+{
+  "name": "itune",
+  "version": "1.0.0",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^38.2.1"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10"
+  }
+}

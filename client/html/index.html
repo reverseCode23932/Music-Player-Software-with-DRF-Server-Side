@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../assets/base.css">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; connect-src 'self' http://127.0.0.1:8000; img-src 'self' data: https://images.unsplash.com;">
+    <title>iTune</title>
+</head>
+<body>
+    <div class="titlebar">
+        <div class="title">iTune</div>
+        <div class="titlebar-buttons">
+            <button class="minimize" title="Minimize"></button>
+            <button class="maximize" title="Maximize"></button>
+            <button class="close" title="Close"></button>
+        </div>
+    </div>
+
+    <div class="bg-blur bg1"></div>
+    <div class="bg-blur bg2"></div>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Library</h2>
+            <nav>
+                <a href="#">Home</a>
+                <a href="#">Playlists</a>
+                <a href="#">Albums</a>
+                <a href="#">Settings</a>
+            </nav>
+        </aside>
+
+        <main class="library">
+            <h2>My Songs</h2>
+            <div class="song-list">
+                </div>
+        </main>
+
+        <div class="player">
+            <div class="song-info">
+                <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=80&q=80" alt="Album Art">
+                <div>
+                    <div class="title">Unknown</div>
+                    <div class="artist">Unknown</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button title="Previous">⏮</button>
+                <button title="Play/Pause" id="playPauseButton">⏯</button> 
+                <button title="Next">⏭</button>
+            </div>
+
+            <div class="progress">
+                <div class="bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="loginOverlay"></div>
+
+    <div class="login-popup" id="loginPopup">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginButton">Login</button>
+    </div>
+    
+    <audio id="audioPlayer"></audio>
+
+    <script src="../renderer.js"></script>
+</body>
+</html>
