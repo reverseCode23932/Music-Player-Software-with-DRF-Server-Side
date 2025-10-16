@@ -132,18 +132,14 @@ Access the API at `http://127.0.0.1:8000/`.
 * **PUT /api/songs/{id}/**: Update a song by ID
 * **PATCH /api/songs/{id}/**: Partial update of a song by ID
 * **DELETE /api/songs/{id}/**: Delete a song by ID
-* **GET /api/artists/**: List all artists
-* **POST /api/artists/**: Create a new artist
-* **GET /api/artists/{id}/**: Retrieve an artist by ID
-* **PUT /api/artists/{id}/**: Update an artist by ID
-* **PATCH /api/artists/{id}/**: Partial update of an artist by ID
-* **DELETE /api/artists/{id}/**: Delete an artist by ID
-* **GET /api/albums/**: List all albums
-* **POST /api/albums/**: Create a new album
-* **GET /api/albums/{id}/**: Retrieve an album by ID
-* **PUT /api/albums/{id}/**: Update an album by ID
-* **PATCH /api/albums/{id}/**: Partial update of an album by ID
-* **DELETE /api/albums/{id}/**: Delete an album by ID
+* **GET /api/playlists/**: List all playlists
+* **POST /api/playlists/**: Create a new playlist
+* **GET /api/playlists/{id}/**: Retrieve a playlist by ID
+* **PUT /api/playlists/{id}/**: Update a playlist by ID
+* **PATCH /api/playlists/{id}/**: Partial update of a playlist by ID
+* **DELETE /api/playlists/{id}/**: Delete a playlist by ID
+* **GET /api/users/**: List all users (admin only)
+* **GET /api/users/{id}/**: Retrieve a user by ID (admin only)
 
 ## License
 
