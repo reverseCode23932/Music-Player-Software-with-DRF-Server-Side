@@ -43,17 +43,14 @@ async function handleLogin() {
          return;
     }
 
-    // Call the login API (assuming it's available via window.api)
     const result = await window.api.login("http://127.0.0.1:8000/token/", { username, password });
     
     if (result && result.access) { 
-        // ⭐️ SUCCESS: Store tokens ⭐️
         userAccessToken = result.access; 
         userRefreshToken = result.refresh; 
         
         console.log("Logged in successfully. Token obtained.");
         
-        // Rerun authenticated data loads
         loadSongs();
         loadPlaylists(); 
         
@@ -64,7 +61,6 @@ async function handleLogin() {
 }
 
 
-// --- Playback Functions (Must be globally accessible for loadSongs) ---
 function playSong(song) {
     const audioPlayer = document.getElementById('audioPlayer');
     const playPauseButton = document.getElementById('playPauseButton');
@@ -73,11 +69,9 @@ function playSong(song) {
     
     if (!audioPlayer) return;
 
-    // Update UI
     titleElement.textContent = song.title || 'Unknown Title';
     artistElement.textContent = song.artist || 'Unknown Artist';
     
-    // Load and play
     audioPlayer.src = song.file; 
     audioPlayer.play().catch(err => console.error('Playback failed:', err));
     
@@ -85,7 +79,6 @@ function playSong(song) {
 }
 
 
-// --- Data Loading Functions ---
 
 async function loadSongs() {
     const headers = getAuthHeaders();
@@ -95,7 +88,7 @@ async function loadSongs() {
         
         if (!response.ok) {
             if (response.status === 401) {
-                // If unauthorized, prompt login and stop loading data
+    
                 showLogin(); 
                 return;
             }
@@ -111,7 +104,6 @@ async function loadSongs() {
                 const item = document.createElement('div');
                 item.className = 'song-item';
                 
-                // Click listener calls the global playSong function
                 item.addEventListener('click', () => {
                     playSong(song); 
                 });
@@ -138,7 +130,7 @@ async function loadPlaylists() {
         const response = await fetch('http://127.0.0.1:8000/playlists/', { headers });
         
         if (!response.ok) {
-            if (response.status === 401) return; // Login shown by loadSongs
+            if (response.status === 401) return; 
             throw new Error(`HTTP error: ${response.status}`);
         }
         
@@ -150,17 +142,15 @@ async function loadPlaylists() {
 }
 
 
-// --- Main DOMContentLoaded Listener ---
+
 window.addEventListener('DOMContentLoaded', () => {
-    // Check initial user status (if pre-authenticated)
+    
     let user = window.currentUser ? window.currentUser.username : null;
     
-    // Element references for interactivity
     const loginButton = document.getElementById('loginButton');
     const audioPlayer = document.getElementById('audioPlayer');
     const playPauseButton = document.getElementById('playPauseButton');
 
-    // Load data (will show login if unauthorized)
     loadSongs();
     loadPlaylists();
 
@@ -171,8 +161,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!user && !userAccessToken) { 
         showLogin();
     }
-    
-    // Play/Pause Toggle
+  
     if (playPauseButton && audioPlayer) {
         playPauseButton.addEventListener('click', () => {
             if (audioPlayer.paused) {
@@ -185,7 +174,6 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Titlebar controls
     document.querySelector('.close')?.addEventListener('click', () => { window.controls?.close(); });
     document.querySelector('.minimize')?.addEventListener('click', () => { window.controls?.minimize(); });
     document.querySelector('.maximize')?.addEventListener('click', () => { window.controls?.maximize(); });
