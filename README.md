@@ -14,7 +14,7 @@ This project provides a RESTful API for a music player application. The backend 
 
 * Backend: Django, Django REST Framework (DRF)
 * Database: PostgreSQL
-* Authentication: Token-based authentication (DRF's default)
+* Authentication: Token-based authentication (SIMPLE JWT)
 * Environment Management: `python-dotenv` for environment variables
 * Audio Storage: Local file system (MP3 files stored in the server)
 
