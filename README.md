@@ -108,6 +108,8 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
+###ALSO CREATE A .log FILE IN FIRST SERVER FOLDER
+
 ### 9. Run the Development Server
 
 ```bash
