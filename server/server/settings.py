@@ -28,7 +28,7 @@ assert os.getenv("SECRET_KEY"), "no secret_key provided"
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG")
+DEBUG = os.getenv("DEBUG") or False
 
 ALLOWED_HOSTS = []
 
